@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas para Ti ✿</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #E8F4F8 0%, #D1E7DD 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 95%;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .fase {
+            display: none;
+        }
+
+        .fase.activa {
+            display: block;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-container {
+            background: rgba(240, 240, 240, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ddd;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .descripcion {
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        input[type="text"] {
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border: 3px solid #ccc;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            margin: 20px 0;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #888;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(136, 136, 136, 0.3);
+        }
+
+        button {
+            background: linear-gradient(45deg, #333, #666);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 102, 102, 0.4);
+            background: linear-gradient(45deg, #444, #777);
+        }
+
+        .mensaje-espera {
+            font-size: 1.8em;
+            color: #555;
+            margin: 40px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .puntos {
+            display: inline-block;
+            animation: puntosCargando 1.5s infinite;
+        }
+
+        @keyframes puntosCargando {
+            0%, 20% { opacity: 0; }
+            50% { opacity: 1; }
+            80%, 100% { opacity: 0; }
+        }
+
+        .nombre-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 8px;
+            margin: 20px 0;
+            min-height: 120px;
+            width: 100%;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .nombre-container {
+                gap: 2px;
+                min-height: 80px;
+                padding: 0 15px;
+                max-width: 100%;
+                transform: scale(0.65);
+                transform-origin: center;
+            }
+        }
+
+        /* Responsive para tablets */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .nombre-container {
+                gap: 12px;
+                transform: scale(0.85);
+                transform-origin: center;
+            }
+        }
+
+        /* Para pantallas grandes */
+        @media (min-width: 1025px) {
+            .nombre-container {
+                gap: 15px;
+            }
+        }
+
+        .mensaje-integrado {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 248, 220, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #FFD700;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mensaje-integrado p {
+            color: #666;
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin: 10px 0;
+            font-style: italic;
+        }
+
+        .mensaje-integrado .firma {
+            color: #FF6B35;
+            font-style: normal;
+            font-size: 1.1em;
+            margin-top: 15px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive para mensaje */
+        @media (max-width: 768px) {
+            .mensaje-integrado {
+                padding: 15px;
+                max-width: 95%;
+            }
+            
+            .mensaje-integrado p {
+                font-size: 1em;
+                margin: 8px 0;
+            }
+            
+            .mensaje-integrado .firma {
+                font-size: 1em;
+                margin-top: 12px;
+            }
+        }
+
+        .letra-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .letra-flores {
+            position: relative;
+            display: grid;
+            gap: 6px;
+        }
+
+        .flor-pequena {
+            position: relative;
+            width: 22px;
+            height: 22px;
+            opacity: 0;
+            display: inline-block;
+        }
+
+        /* CORRECCIÓN: Pétalos visibles y centrados */
+        .flor-pequena .petalo {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background: radial-gradient(ellipse at center, #FFD700 0%, #FFA500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 50%;
+            left: 50%;
+            margin-top: -6px; /* Mitad de la altura del pétalo */
+            margin-left: -4px; /* Mitad del ancho del pétalo */
+            transform-origin: center bottom; /* Punto de rotación en la base del pétalo */
+            z-index: 1; /* Asegurar que estén por encima del fondo */
+        }
+
+        .flor-pequena .petalo:nth-child(1) { transform: rotate(0deg); }
+        .flor-pequena .petalo:nth-child(2) { transform: rotate(72deg); }
+        .flor-pequena .petalo:nth-child(3) { transform: rotate(144deg); }
+        .flor-pequena .petalo:nth-child(4) { transform: rotate(216deg); }
+        .flor-pequena .petalo:nth-child(5) { transform: rotate(288deg); }
+
+        .flor-pequena .centro {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -20%);
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #8B4513 0%, #A0522D 100%);
+            border-radius: 50%;
+            z-index: 2; /* Por encima de los pétalos */
+        }
+
+        /* Nuevos estilos para la animación de texto primero */
+        .letra-texto {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #8B4513;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .letra-texto.apareciendo {
+            animation: aparecerTexto 1s ease-out forwards;
+        }
+
+        .letra-texto.desapareciendo {
+            animation: desaparecerTexto 0.8s ease-in forwards;
+        }
+
+        @keyframes aparecerTexto {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0) rotate(180deg);
+            }
+            70% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2) rotate(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+        }
+
+        @keyframes desaparecerTexto {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.3) rotate(90deg);
+            }
+        }
+
+        /* Responsive para flores */
+        @media (max-width: 768px) {
+            .letra-flores {
+                gap: 3px;
+            }
+            
+            .flor-pequena {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .flor-pequena .petalo {
+                width: 7px;
+                height: 10px;
+                margin-top: -5px;
+                margin-left: -3.5px;
+            }
+            
+            .flor-pequena .centro {
+                width: 5px;
+                height: 5px;
+            }
+            
+            .letra-texto {
+                font-size: 18px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .letra-flores {
+                gap: 4px;
+            }
+            
+            .flor-pequena {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .letra-texto {
+                font-size: 21px;
+            }
+        }
+
+        @keyframes floreciendo {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(0.8) rotate(180deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+        .flor-pequena.floreciendo {
+            animation: floreciendo 1.5s ease-out forwards;
+        }
+
+        .mensaje-final {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            margin: 40px 0;
+            border: 3px solid #FFD700;
+        }
+
+        .mensaje-final h2 {
+            color: #8B4513;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .mensaje-final p {
+            color: #666;
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+
+        .firma {
+            color: #FF6B35;
+            font-style: italic;
+            font-size: 1.4em;
+            margin-top: 25px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .particulas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particula {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ddd;
+            border-radius: 50%;
+            animation: flotando 10s infinite linear;
+        }
+
+        @keyframes flotando {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particulas" id="particulas"></div>
+    
+    <div class="container">
+        <!-- Fase 1: Solicitar nombre -->
+        <div id="fase1" class="fase activa">
+            <div class="input-container">
+                <h1>🎉 ¡Sorpresa Especial! 🎉</h1>
+                <div class="descripcion">
+                    ¡Hola! Tengo algo increíble preparado solo para ti.<br>
+                    Escribe tu nombre y prepárate para una sorpresa que te va a encantar ✨
+                </div>
+                <input type="text" id="nombreInput" placeholder="Escribe tu nombre aquí..." maxlength="20">
+                <br>
+                <button onclick="iniciarAnimacion()">¡Quiero mi sorpresa! 🚀</button>
+            </div>
+        </div>
+
+        <!-- Fase 2: Mensaje de espera -->
+        <div id="fase2" class="fase">
+            <div class="mensaje-espera">
+                Espera un momentito<span class="puntos">...</span><br>
+                Tu sorpresa está llegando<span class="puntos">...</span>
+            </div>
+        </div>
+
+        <!-- Fase 3: Nombre armado con flores -->
+        <div id="fase3" class="fase">
+            <div class="nombre-container" id="nombreFlores"></div>
+            <div class="mensaje-integrado" id="mensajeIntegrado" style="opacity: 0;">
+                <p>Que estas flores amarillas llenen tu día de alegría y luz ✨</p>
+                <p>Eres una persona especial y mereces toda la felicidad del mundo 🌻</p>
+                <p>Cada pétalo es un recordatorio de lo maravillosa que eres 💛</p>
+                <div class="firma">De parte de Jesús, con mucho cariño ❤️</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales para controlar la animación
+        let nombreUsuario = '';
+        let letrasElementos = [];
+
+        // Crear partículas flotantes sutiles
+        function crearParticulas() {
+            const contenedor = document.getElementById('particulas');
+            for (let i = 0; i < 8; i++) {
+                const particula = document.createElement('div');
+                particula.className = 'particula';
+                particula.style.left = Math.random() * 100 + '%';
+                particula.style.animationDelay = Math.random() * 10 + 's';
+                particula.style.animationDuration = (Math.random() * 6 + 8) + 's';
+                contenedor.appendChild(particula);
+            }
+        }
+
+        function cambiarFase(faseActual, siguienteFase) {
+            document.getElementById(faseActual).classList.remove('activa');
+            setTimeout(() => {
+                document.getElementById(siguienteFase).classList.add('activa');
+            }, 500);
+        }
+
+        function iniciarAnimacion() {
+            const nombre = document.getElementById('nombreInput').value.trim();
+            if (nombre === '') {
+                alert('¡Hey! Necesito tu nombre para preparar tu sorpresa 😊');
+                return;
+            }
+
+            nombreUsuario = nombre;
+            cambiarFase('fase1', 'fase2');
+            
+            setTimeout(() => {
+                mostrarNombreAnimado(nombre);
+                cambiarFase('fase2', 'fase3');
+            }, 3000);
+        }
+
+        function mostrarNombreAnimado(nombre) {
+            const contenedor = document.getElementById('nombreFlores');
+            contenedor.innerHTML = '';
+            letrasElementos = [];
+            
+            const letras = nombre.toUpperCase().split('');
+            
+            // Calcular tamaños según el dispositivo y longitud del nombre
+            const anchoPantalla = window.innerWidth;
+            const longitudNombre = nombre.length;
+            
+            let tamanoCelda, gapLetras, espacioEntrePalabras;
+            
+            if (anchoPantalla <= 768) {
+                if (longitudNombre <= 6) {
+                    tamanoCelda = 18;
+                    gapLetras = '4px';
+                } else if (longitudNombre <= 8) {
+                    tamanoCelda = 16;
+                    gapLetras = '3px';
+                } else {
+                    tamanoCelda = 14;
+                    gapLetras = '2px';
+                }
+                espacioEntrePalabras = '12px';
+            } else if (anchoPantalla <= 1024) {
+                tamanoCelda = 20;
+                gapLetras = '8px';
+                espacioEntrePalabras = '20px';
+            } else {
+                tamanoCelda = 22;
+                gapLetras = '10px';
+                espacioEntrePalabras = '25px';
+            }
+            
+            contenedor.style.gap = gapLetras;
+            
+            // Primero crear la estructura completa
+            letras.forEach((letra, indiceLetra) => {
+                if (letra === ' ') {
+                    const espacio = document.createElement('div');
+                    espacio.style.width = espacioEntrePalabras;
+                    contenedor.appendChild(espacio);
+                    return;
+                }
+                
+                const letraContainer = document.createElement('div');
+                letraContainer.className = 'letra-container';
+                
+                const letraFlores = document.createElement('div');
+                letraFlores.className = 'letra-flores';
+                
+                const patron = obtenerPatronLetra(letra);
+                letraFlores.style.gridTemplateColumns = `repeat(${patron.ancho}, 1fr)`;
+                letraFlores.style.gridTemplateRows = `repeat(${patron.alto}, 1fr)`;
+                
+                // Crear la letra de texto
+                const letraTexto = document.createElement('div');
+                letraTexto.className = 'letra-texto';
+                letraTexto.textContent = letra;
+                letraContainer.appendChild(letraTexto);
+                
+                // Crear la estructura de flores (inicialmente ocultas)
+                const floresData = [];
+                patron.puntos.forEach((fila, indiceFila) => {
+                    fila.forEach((punto, indiceColumna) => {
+                        const elemento = document.createElement('div');
+                        elemento.style.width = tamanoCelda + 'px';
+                        elemento.style.height = tamanoCelda + 'px';
+                        
+                        if (punto === 1) {
+                            const flor = crearFlorPequena();
+                            elemento.appendChild(flor);
+                            floresData.push(flor);
+                        }
+                        
+                        letraFlores.appendChild(elemento);
+                    });
+                });
+                
+                letraContainer.appendChild(letraFlores);
+                contenedor.appendChild(letraContainer);
+                
+                // Guardar referencias
+                letrasElementos.push({
+                    letraTexto: letraTexto,
+                    flores: floresData
+                });
+            });
+            
+            // Iniciar la secuencia de animación
+            iniciarSecuenciaAnimacion();
+        }
+
+        function iniciarSecuenciaAnimacion() {
+            // Fase 1: Mostrar las letras de texto una por una
+            let retrasoTexto = 0;
+            letrasElementos.forEach((elemento, index) => {
+                setTimeout(() => {
+                    elemento.letraTexto.classList.add('apareciendo');
+                }, retrasoTexto);
+                retrasoTexto += 300; // 300ms entre cada letra
+            });
+            
+            // Fase 2: Después de mostrar todas las letras, hacer la transformación
+            setTimeout(() => {
+                iniciarTransformacionAFlores();
+            }, retrasoTexto + 1500); // Esperar un poco más después de la última letra
+        }
+
+        function iniciarTransformacionAFlores() {
+            let retrasoTransformacion = 0;
+            
+            letrasElementos.forEach((elemento, indexLetra) => {
+                setTimeout(() => {
+                    // Hacer desaparecer la letra de texto
+                    elemento.letraTexto.classList.remove('apareciendo');
+                    elemento.letraTexto.classList.add('desapareciendo');
+                    
+                    // Después de que desaparezca el texto, mostrar las flores
+                    setTimeout(() => {
+                        let retrasoFlor = 0;
+                        elemento.flores.forEach((flor) => {
+                            setTimeout(() => {
+                                flor.classList.add('floreciendo');
+                            }, retrasoFlor);
+                            retrasoFlor += 60;
+                        });
+                    }, 400); // Esperar a que termine la animación de desaparecer texto
+                    
+                }, retrasoTransformacion);
+                retrasoTransformacion += 500; // Tiempo entre transformación de letras
+            });
+            
+            // Mostrar mensaje final
+            setTimeout(() => {
+                const mensajeIntegrado = document.getElementById('mensajeIntegrado');
+                mensajeIntegrado.style.opacity = '1';
+                mensajeIntegrado.style.transition = 'opacity 2s ease-in-out';
+            }, retrasoTransformacion + 2000);
+        }
+
+        function crearFlorPequena() {
+            const flor = document.createElement('div');
+            flor.className = 'flor-pequena';
+            
+            // Crear 5 pétalos
+            for (let i = 0; i < 5; i++) {
+                const petalo = document.createElement('div');
+                petalo.className = 'petalo';
+                flor.appendChild(petalo);
+            }
+            
+            // Crear centro
+            const centro = document.createElement('div');
+            centro.className = 'centro';
+            flor.appendChild(centro);
+            
+            return flor;
+        }
+
+        function obtenerPatronLetra(letra) {
+            const patrones = {
+                'A': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [0, 0, 1, 0, 0],
+                        [0, 1, 0, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 1, 1, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'B': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 1, 1, 0]
+                    ]
+                },
+                'C': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [0, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 1, 1, 0]
+                    ]
+                },
+                'D': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 1, 1, 0]
+                    ]
+                },
+                'E': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 1],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 1, 1, 1, 1]
+                    ]
+                },
+                'F': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 1],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0]
+                    ]
+                },
+                'G': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [0, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 1, 1, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 1, 1, 0]
+                    ]
+                },
+                'H': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 1, 1, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'I': {
+                    ancho: 3, alto: 7,
+                    puntos: [
+                        [1, 1, 1],
+                        [0, 1, 0],
+                        [0, 1, 0],
+                        [0, 1, 0],
+                        [0, 1, 0],
+                        [0, 1, 0],
+                        [1, 1, 1]
+                    ]
+                },
+                'J': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [0, 0, 0, 0, 1],
+                        [0, 0, 0, 0, 1],
+                        [0, 0, 0, 0, 1],
+                        [0, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 1, 1, 0]
+                    ]
+                },
+                'K': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 1, 0],
+                        [1, 0, 1, 0, 0],
+                        [1, 1, 0, 0, 0],
+                        [1, 0, 1, 0, 0],
+                        [1, 0, 0, 1, 0],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'L': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 1, 1, 1, 1]
+                    ]
+                },
+                'M': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 0, 1, 1],
+                        [1, 0, 1, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'N': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 0, 0, 1],
+                        [1, 0, 1, 0, 1],
+                        [1, 0, 0, 1, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'O': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [0, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 1, 1, 0]
+                    ]
+                },
+                'P': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0]
+                    ]
+                },
+                'Q': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [0, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 1, 0, 1],
+                        [1, 0, 0, 1, 0],
+                        [0, 1, 1, 0, 1]
+                    ]
+                },
+                'R': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 1, 1, 0],
+                        [1, 0, 1, 0, 0],
+                        [1, 0, 0, 1, 0],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'S': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [0, 1, 1, 1, 0],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 0],
+                        [0, 1, 1, 1, 0],
+                        [0, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 1, 1, 0]
+                    ]
+                },
+                'T': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 1],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0]
+                    ]
+                },
+                'U': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 1, 1, 0]
+                    ]
+                },
+                'V': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 0, 1, 0],
+                        [0, 1, 0, 1, 0],
+                        [0, 0, 1, 0, 0]
+                    ]
+                },
+                'W': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 1, 0, 1],
+                        [1, 0, 1, 0, 1],
+                        [1, 1, 0, 1, 1],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'X': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 0, 1, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 1, 0, 1, 0],
+                        [1, 0, 0, 0, 1]
+                    ]
+                },
+                'Y': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [0, 1, 0, 1, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 0, 1, 0, 0]
+                    ]
+                },
+                'Z': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 1, 1, 1, 1],
+                        [0, 0, 0, 0, 1],
+                        [0, 0, 0, 1, 0],
+                        [0, 0, 1, 0, 0],
+                        [0, 1, 0, 0, 0],
+                        [1, 0, 0, 0, 0],
+                        [1, 1, 1, 1, 1]
+                    ]
+                },
+                'Ñ': {
+                    ancho: 5, alto: 7,
+                    puntos: [
+                        [1, 0, 0, 0, 1],
+                        [1, 1, 0, 0, 1],
+                        [1, 0, 1, 0, 1],
+                        [1, 0, 0, 1, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1],
+                        [1, 0, 0, 0, 1]
+                    ]
+                }
+            };
+            
+            return patrones[letra] || {
+                ancho: 5, alto: 7,
+                puntos: [
+                    [1, 1, 1, 1, 1],
+                    [1, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 1],
+                    [1, 1, 1, 1, 1]
+                ]
+            };
+        }
+
+        // Inicializar partículas al cargar
+        window.addEventListener('load', () => {
+            crearParticulas();
+            
+            // Permitir usar Enter para continuar
+            document.getElementById('nombreInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    iniciarAnimacion();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

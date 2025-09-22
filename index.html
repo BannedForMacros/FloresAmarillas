@@ -445,7 +445,10 @@
 </head>
 <body>
     <div class="particulas" id="particulas"></div>
-    
+    <audio id="audioFondo" preload="auto">
+        <source src="audio.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
     <div class="container">
         <!-- Fase 1: Solicitar nombre -->
         <div id="fase1" class="fase activa">
@@ -517,6 +520,11 @@
             cambiarFase('fase1', 'fase2');
             
             setTimeout(() => {
+                // NUEVO: Reproducir audio cuando comience la escritura
+        const audio = document.getElementById('audioFondo');
+        audio.play().catch(function(error) {
+            console.log('Error al reproducir audio:', error);
+        });
                 mostrarNombreAnimado(nombre);
                 cambiarFase('fase2', 'fase3');
             }, 3000);
